@@ -1,29 +1,46 @@
-import com.github.vlsi.gradle.properties.dsl.props
-
 plugins {
     java
     kotlin("jvm")
-    id("com.google.devtools.ksp") apply false
-    id("dev.nokee.jni-library")
-    id("dev.nokee.objective-cpp-language")
-    `uber-jni-jar`
+    id("com.google.devtools.ksp")
+    // id("dev.nokee.jni-library")
+    // id("dev.nokee.objective-cpp-language")
+    // `uber-jni-jar`
     `use-prebuilt-binaries`
-    `apple-m1-toolchain`
+    // `apple-m1-toolchain`
+}
+
+prebuiltBinaries {
+    alwaysUsePrebuiltArtifact = true
+    resourcePath = "com/github/weisj/darkmode/${project.name}"
+    variants =
+        listOf(
+            StubJniLibrary(
+                operatingSystem = "macos",
+                architecture = "x86-64",
+            ),
+            StubJniLibrary(
+                operatingSystem = "macos",
+                architecture = "arm64",
+            ),
+        )
 }
 
 dependencies {
     implementation(libs.autoservice.annotations)
-    compileOnly(kotlin("stdlib-jdk8"))
+    implementation(projects.autoDarkModeBase)
+    implementation(libs.darklaf.nativeUtils)
+    compileOnly(kotlin("stdlib"))
+    ksp(libs.autoservice.processor)
 }
 
-if (!props.bool("macOSciModeFix", default = false)) {
-    apply(plugin = "com.google.devtools.ksp")
-    dependencies {
-        "ksp"(libs.autoservice.processor)
-    }
-}
+// if (!props.bool("macOSciModeFix", default = false)) {
+//    apply(plugin = "com.google.devtools.ksp")
+//    dependencies {
+//        "ksp"(libs.autoservice.processor)
+//    }
+// }
 
-library {
+/*library {
     dependencies {
         jvmImplementation(projects.autoDarkModeBase)
         jvmLibImplementation(libs.darklaf.nativeUtils)
@@ -49,4 +66,4 @@ library {
             }
         }
     }
-}
+}*/

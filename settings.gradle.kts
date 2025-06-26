@@ -1,5 +1,4 @@
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
-enableFeaturePreview("VERSION_CATALOGS")
 
 pluginManagement {
     plugins {
@@ -16,7 +15,7 @@ pluginManagement {
         idv("com.github.vlsi.ide", "com.github.vlsi.vlsi-release-plugins")
         idv("com.github.vlsi.license-gather", "com.github.vlsi.vlsi-release-plugins")
         idv("com.github.vlsi.stage-vote-release", "com.github.vlsi.vlsi-release-plugins")
-        idv("org.jetbrains.intellij", "org.jetbrains.intellij")
+        idv("org.jetbrains.intellij.platform", "org.jetbrains.intellij.platform")
         idv("org.ajoberstar.grgit", "org.ajoberstar.grgit")
         idv("org.jetbrains.kotlin.jvm", "kotlin")
         idv("org.gradle.kotlin.kotlin-gradle-plugin", "kotlin")

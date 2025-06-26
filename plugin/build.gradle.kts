@@ -1,10 +1,10 @@
 import com.github.vlsi.gradle.properties.dsl.props
-import org.jetbrains.intellij.tasks.BuildSearchableOptionsTask
-import org.jetbrains.intellij.tasks.PatchPluginXmlTask
-import org.jetbrains.intellij.tasks.PrepareSandboxTask
+import org.jetbrains.intellij.platform.gradle.tasks.BuildSearchableOptionsTask
+import org.jetbrains.intellij.platform.gradle.tasks.PrepareJarSearchableOptionsTask
+import org.jetbrains.intellij.platform.gradle.tasks.PrepareSandboxTask
 
 plugins {
-    id("org.jetbrains.intellij")
+    id("org.jetbrains.intellij.platform")
     id("com.github.vlsi.gradle-extensions")
     id("com.google.devtools.ksp")
     kotlin("jvm")
@@ -14,11 +14,19 @@ val String.v: String get() = rootProject.extra["$this.version"] as String
 val isPublished by props(true)
 val intellijPublishToken: String by props("")
 
-intellij {
-    version.set("ideaPlugin".v)
+repositories {
+    intellijPlatform {
+        defaultRepositories()
+    }
 }
 
-tasks.withType<PatchPluginXmlTask> {
+dependencies {
+    intellijPlatform {
+        intellijIdeaCommunity("ideaPlugin".v)
+    }
+}
+
+tasks.patchPluginXml {
     changeNotes.set(
         """
         v1.8.4
@@ -85,7 +93,6 @@ tasks.withType<PatchPluginXmlTask> {
         """,
     )
     sinceBuild.set("ideaPlugin.since".v)
-//    untilBuild.set("ideaPlugin.until".v)
 }
 
 dependencies {
@@ -96,7 +103,7 @@ dependencies {
 
     ksp(libs.autoservice.processor)
     implementation(libs.autoservice.annotations)
-    compileOnly(kotlin("stdlib-jdk8"))
+    compileOnly(kotlin("stdlib"))
     compileOnly(kotlin("reflect"))
 
     testImplementation(projects.autoDarkModeLinuxGtk)
@@ -127,5 +134,5 @@ tasks {
     }
 }
 
-listOf(BuildSearchableOptionsTask::class, PrepareSandboxTask::class)
+listOf(BuildSearchableOptionsTask::class, PrepareSandboxTask::class, PrepareJarSearchableOptionsTask::class)
     .forEach { tasks.withType(it).configureEach { enabled = isPublished } }

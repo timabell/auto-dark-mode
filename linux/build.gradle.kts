@@ -17,7 +17,7 @@ dependencies {
      */
     implementation(project(":auto-dark-mode-linux-gtk"))
     implementation(project(":auto-dark-mode-linux-xdg"))
-    compileOnly(kotlin("stdlib-jdk8"))
+    compileOnly(kotlin("stdlib"))
 
     ksp(libs.autoservice.processor)
     implementation(libs.autoservice.annotations)

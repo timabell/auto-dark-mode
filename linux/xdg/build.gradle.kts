@@ -16,5 +16,5 @@ dependencies {
 
     ksp(libs.autoservice.processor)
     compileOnly(libs.autoservice.annotations)
-    compileOnly(kotlin("stdlib-jdk8"))
+    compileOnly(kotlin("stdlib"))
 }

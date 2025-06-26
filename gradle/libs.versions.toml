@@ -1,6 +1,6 @@
 [versions]
-autoservice = "1.0-rc7"
-autoserviceKsp = "1.0.0"
+autoservice = "1.0.1"
+autoserviceKsp = "1.2.0"
 macOSFramework = "latest.release"
 junit = "5.9.1"
 junitlauncher = "1.9.0"

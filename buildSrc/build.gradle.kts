@@ -4,7 +4,7 @@ plugins {
 }
 
 dependencies {
-    implementation(nokeeApi())
+    //implementation(nokeeApi())
     implementation(gradleApi())
 }
 
@@ -16,10 +16,10 @@ repositories {
 
 gradlePlugin {
     plugins {
-        create("uber-jni-jar") {
-            id = "uber-jni-jar"
-            implementationClass = "UberJniJarPlugin"
-        }
+//        create("uber-jni-jar") {
+//            id = "uber-jni-jar"
+//            implementationClass = "UberJniJarPlugin"
+//        }
         create("use-prebuilt-binaries") {
             id = "use-prebuilt-binaries"
             implementationClass = "UsePrebuiltBinariesWhenUnbuildablePlugin"

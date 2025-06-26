@@ -77,7 +77,7 @@ open class DownloadPrebuiltBinariesTask @Inject constructor(
     }
 
     private fun fetchBinaryFile(): File? {
-        val branches = githubArtifactSpec.branches
+        val branches = githubArtifactSpec.branches.distinct()
         return if (branches.isEmpty()) {
             fetchBinaryFileForBranch(null)
         } else {
@@ -88,6 +88,7 @@ open class DownloadPrebuiltBinariesTask @Inject constructor(
     }
 
     private fun fetchBinaryFileForBranch(branch: String?): File? {
+        warnLog("Checking branch ${branch}")
         val run = workflowURL.getJson().latestRunForBranch(branch)
             ?: return fetchFailed("Could not get latest run from branch $branch")
         val timeStamp = run["created_at"]
@@ -142,7 +143,9 @@ open class DownloadPrebuiltBinariesTask @Inject constructor(
             completed && success
         }
         if (branch == null) return candidates.firstOrNull()
-        return candidates.find { branch == it["head_branch"] }
+        return candidates.find {
+            branch == it["head_branch"]
+        }
     }
 
     private fun URL.getJson(): Json = fetch { connection ->

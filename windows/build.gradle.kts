@@ -1,8 +1,8 @@
 plugins {
     java
-    id("dev.nokee.jni-library")
-    id("dev.nokee.cpp-language")
-    `uber-jni-jar`
+    // id("dev.nokee.jni-library")
+    // id("dev.nokee.cpp-language")
+    // `uber-jni-jar`
     `use-prebuilt-binaries`
     kotlin("jvm")
 }
@@ -12,6 +12,23 @@ dependencies {
     compileOnly(kotlin("stdlib-jdk8"))
 }
 
+prebuiltBinaries {
+    alwaysUsePrebuiltArtifact = true
+    resourcePath = "com/github/weisj/darkmode/${project.name}"
+    variants =
+        listOf(
+            StubJniLibrary(
+                operatingSystem = "windows",
+                architecture = "x86",
+            ),
+            StubJniLibrary(
+                operatingSystem = "windows",
+                architecture = "x86-64",
+            ),
+        )
+}
+
+/*
 library {
     targetMachines.addAll(machines.windows.x86, machines.windows.x86_64)
     variants.configureEach {
@@ -51,3 +68,4 @@ library {
         }
     }
 }
+*/

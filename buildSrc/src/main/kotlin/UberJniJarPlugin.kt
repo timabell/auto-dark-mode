@@ -1,3 +1,4 @@
+/*
 import dev.nokee.platform.jni.JniJarBinary
 import dev.nokee.platform.jni.JavaNativeInterfaceLibrary
 import dev.nokee.runtime.nativebase.TargetMachine
@@ -72,3 +73,4 @@ class UberJniJarPlugin : Plugin<Project> {
         jarTask.map { project.zipTree(it.archiveFile) }
 
 }
+*/

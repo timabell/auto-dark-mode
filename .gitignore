@@ -25,6 +25,7 @@ repo/
 /buildSrc/out/
 /*/out/
 *.iml
+self-update.lock
 
 # VS Code
 .vscode/
@@ -38,6 +39,7 @@ target/
 /buildSrc/.gradle/
 /*/build/
 /linux/*/build/
+.kotlin/
 
 # Python
 venv/

@@ -1,3 +1,4 @@
+/*
 import dev.nokee.platform.jni.JavaNativeInterfaceLibraryComponentDependencies
 import dev.nokee.runtime.nativebase.OperatingSystemFamily
 import dev.nokee.runtime.nativebase.TargetMachine
@@ -69,3 +70,4 @@ fun SourceCompile.optimizedBinary() {
         }
     })
 }
+*/

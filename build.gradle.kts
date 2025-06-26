@@ -1,6 +1,7 @@
 import com.github.vlsi.gradle.crlf.CrLfSpec
 import com.github.vlsi.gradle.crlf.LineEndings
 import com.github.vlsi.gradle.properties.dsl.props
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -79,16 +80,16 @@ allprojects {
                 trimTrailingWhitespace()
                 eclipseWtp(com.diffplug.spotless.extra.wtp.EclipseWtpFormatterStep.XML)
             }
-            plugins.withType<dev.nokee.platform.jni.internal.plugins.JniLibraryPlugin>().configureEach {
-                cpp {
-                    target("**/*.cpp", "**/*.h")
-                    targetExclude("**/objcpp/**")
-                    endWithNewline()
-                    trimTrailingWhitespace()
-                    eclipseCdt().configFile("${project.rootDir}/config/cpp.eclipseformat.xml")
-                    licenseHeaderFile("${project.rootDir}/config/LICENSE_HEADER_JAVA.txt")
-                }
-            }
+//            plugins.withType<dev.nokee.platform.jni.internal.plugins.JniLibraryPlugin>().configureEach {
+//                cpp {
+//                    target("**/*.cpp", "**/*.h")
+//                    targetExclude("**/objcpp/**")
+//                    endWithNewline()
+//                    trimTrailingWhitespace()
+//                    eclipseCdt().configFile("${project.rootDir}/config/cpp.eclipseformat.xml")
+//                    licenseHeaderFile("${project.rootDir}/config/LICENSE_HEADER_JAVA.txt")
+//                }
+//            }
             plugins.withType<JavaPlugin>().configureEach {
                 java {
                     importOrder("java", "javax", "org", "com")
@@ -119,9 +120,14 @@ allprojects {
     val javaVersion = JavaVersion.VERSION_17
 
     tasks.withType<KotlinCompile>().configureEach {
-        kotlinOptions {
-            jvmTarget = javaVersion.toString()
-            freeCompilerArgs = listOf("-Xjvm-default=all-compatibility")
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_17)
+            freeCompilerArgs.set(
+                listOf(
+                    "-Xjvm-default=all-compatibility",
+                    "-Xconsistent-data-class-copy-visibility",
+                ),
+            )
         }
     }
 

@@ -1,9 +1,9 @@
 plugins {
     java
-    id("dev.nokee.jni-library")
-    id("dev.nokee.cpp-language")
+    // id("dev.nokee.jni-library")
+    // id("dev.nokee.cpp-language")
     id("com.google.devtools.ksp")
-    `uber-jni-jar`
+    // `uber-jni-jar`
     `use-prebuilt-binaries`
     kotlin("jvm")
 }
@@ -14,9 +14,21 @@ dependencies {
 
     ksp(libs.autoservice.processor)
     implementation(libs.autoservice.annotations)
-    compileOnly(kotlin("stdlib-jdk8"))
+    compileOnly(kotlin("stdlib"))
 }
 
+prebuiltBinaries {
+    alwaysUsePrebuiltArtifact = true
+    resourcePath = "com/github/weisj/darkmode/${project.name}"
+    variants = listOf(
+        StubJniLibrary(
+            operatingSystem = "linux",
+            architecture = "x86-64",
+        ),
+    )
+}
+
+/*
 library {
     targetMachines.addAll(machines.linux.x86_64)
     variants.configureEach {
@@ -86,3 +98,4 @@ fun String.runCommand(): String {
     process.waitFor(10, TimeUnit.SECONDS)
     return output.trim()
 }
+*/
