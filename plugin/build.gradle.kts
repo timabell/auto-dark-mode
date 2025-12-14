@@ -29,6 +29,10 @@ dependencies {
 tasks.patchPluginXml {
     changeNotes.set(
         """
+        v1.8.5
+        <ul>
+            <li> Compatibility with new Island Themes.
+        </ul>
         v1.8.4
         <ul>
             <li> Fixed an error when dispatching notifications in IDEA 2024.2
