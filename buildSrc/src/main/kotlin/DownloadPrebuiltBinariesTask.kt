@@ -5,7 +5,7 @@ import org.gradle.api.GradleException
 import org.gradle.api.tasks.OutputFile
 import java.io.File
 import java.net.HttpURLConnection
-import java.net.URL
+import java.net.URI
 import java.nio.file.Files
 import java.nio.file.StandardCopyOption
 import java.util.concurrent.locks.Lock
@@ -37,7 +37,7 @@ open class DownloadPrebuiltBinariesTask @Inject constructor(
 
     private val workflowURL
         get() = with(githubArtifactSpec) {
-            URL("https://api.github.com/repos/$user/$repository/actions/workflows/$workflow/runs")
+            URI("https://api.github.com/repos/$user/$repository/actions/workflows/$workflow/runs")
         }
 
     private val prebuiltDirectoryPath = "${project.layout.buildDirectory.get()}/$PRE_BUILD_PATH/$variantName"
@@ -88,7 +88,7 @@ open class DownloadPrebuiltBinariesTask @Inject constructor(
     }
 
     private fun fetchBinaryFileForBranch(branch: String?): File? {
-        warnLog("Checking branch ${branch}")
+        warnLog("Checking branch $branch")
         val run = workflowURL.getJson().latestRunForBranch(branch)
             ?: return fetchFailed("Could not get latest run from branch $branch")
         val timeStamp = run["created_at"]
@@ -103,10 +103,10 @@ open class DownloadPrebuiltBinariesTask @Inject constructor(
         }
         val artifactUrl = run["artifacts_url"]?.toString()
             ?: return fetchFailed("Could not get artifacts urls")
-        val artifacts = URL(artifactUrl).getJson()["artifacts"] as List<Json>
+        val artifacts = URI(artifactUrl).getJson()["artifacts"] as List<Json>
         val downloadUrl = artifacts.find { variantName == it["name"] }?.get("url")?.toString()
             ?: return fetchFailed("Could not find matching artifact for $variantName")
-        val artifactDownloadUrl = URL(downloadUrl).getJson()["archive_download_url"]?.toString()
+        val artifactDownloadUrl = URI(downloadUrl).getJson()["archive_download_url"]?.toString()
             ?: return fetchFailed("Could not get download url")
         val artifact = downloadBinary(branch ?: "", artifactDownloadUrl)
         if (artifact != null) {
@@ -127,7 +127,7 @@ open class DownloadPrebuiltBinariesTask @Inject constructor(
 
     private fun downloadBinary(branch: String, url: String): File? {
         infoLog("Downloading binary for variant '$variantName' from $url")
-        return URL(url).fetch {
+        return URI(url).fetch {
             val artifact = fileOf(tempFilePath("${variantName}_$branch.zip"))
             Files.copy(it.inputStream, artifact.toPath(), StandardCopyOption.REPLACE_EXISTING)
             infoLog("Finished download for variant '$variantName'")
@@ -148,14 +148,14 @@ open class DownloadPrebuiltBinariesTask @Inject constructor(
         }
     }
 
-    private fun URL.getJson(): Json = fetch { connection ->
+    private fun URI.getJson(): Json = fetch { connection ->
         connection.inputStream.bufferedReader().use { it.readText() }.toJson()
     } ?: emptyMap()
 
-    private fun <T : Any> URL.fetch(transform: (HttpURLConnection) -> T?): T? {
+    private fun <T : Any> URI.fetch(transform: (HttpURLConnection) -> T?): T? {
         if (isOffline) return null
         infoLog("Fetching $this")
-        (openConnection() as HttpURLConnection).run {
+        (toURL().openConnection() as HttpURLConnection).run {
             requestMethod = "GET"
             if (githubArtifactSpec.timeout >= 0) {
                 connectTimeout = githubArtifactSpec.timeout
