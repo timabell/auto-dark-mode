@@ -20,12 +20,13 @@ dependencies {
 prebuiltBinaries {
     alwaysUsePrebuiltArtifact = true
     resourcePath = "com/github/weisj/darkmode/${project.name}"
-    variants = listOf(
-        StubJniLibrary(
-            operatingSystem = "linux",
-            architecture = "x86-64",
-        ),
-    )
+    variants =
+        listOf(
+            StubJniLibrary(
+                operatingSystem = "linux",
+                architecture = "x86-64",
+            ),
+        )
 }
 
 /*
