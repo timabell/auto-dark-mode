@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020-2025 Jannis Weis
+ * Copyright (c) 2020-2023 Jannis Weis
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
  * associated documentation files (the "Software"), to deal in the Software without restriction,
@@ -22,7 +22,6 @@ package com.github.weisj.darkmode.platform;
 
 import com.intellij.openapi.util.SystemInfo;
 import com.intellij.util.system.CpuArch;
-import com.intellij.util.system.OS;
 
 @SuppressWarnings("java:S115")
 public final class LibraryUtil {
@@ -33,14 +32,14 @@ public final class LibraryUtil {
 
     public static final boolean isX86 = CpuArch.isIntel32();
     public static final boolean isX64 = CpuArch.isIntel64();
-    public static final boolean isWin10OrNewer = OS.CURRENT == OS.Windows && OS.CURRENT.isAtLeast(10, 0);
-    public static final boolean isMac = OS.CURRENT == OS.macOS;
+    public static final boolean isWin10OrNewer = SystemInfo.isWin10OrNewer;
+    public static final boolean isMac = SystemInfo.isMac;
     public static final boolean isX86Compatible = isX86 || isX64;
     public static final boolean isM1 = SystemInfo.isMac && CpuArch.isArm64();
     // Note: Idea >=231 uses Java 17, which requires Mojave to be installed
     public static final boolean isMacOSMojave = isMac;
-    public static final boolean isMacOSCatalina = OS.CURRENT == OS.macOS && OS.CURRENT.isAtLeast(10, 15);
-    public static final boolean isLinux = OS.CURRENT == OS.Linux;
+    public static final boolean isMacOSCatalina = SystemInfo.isMacOSCatalina;
+    public static final boolean isLinux = SystemInfo.isLinux;
     public static final boolean isGNOME = SystemInfo.isGNOME;
     public static final boolean isGtk = SystemInfo.isGNOME || SystemInfo.isXfce || SystemInfo.isI3;
 }

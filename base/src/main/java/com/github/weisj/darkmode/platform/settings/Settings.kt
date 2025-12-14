@@ -115,7 +115,7 @@ interface SettingsGroup : MutableList<ValueProperty<Any>> {
 }
 
 fun SettingsGroup.isTotallyEmpty() : Boolean {
-    if (isNotEmpty()) return false
+    if (size != 0) return false
     for (subgroup in subgroups) {
         if (subgroup.isEmpty()) return false
     }
