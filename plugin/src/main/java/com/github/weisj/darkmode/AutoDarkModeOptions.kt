@@ -143,7 +143,6 @@ class AutoDarkModeOptions : PersistentStateComponent<SettingsState> {
                 properties[identifier]?.value = it.value
             }
         }
-        settingsLoaded()
     }
 
     fun settingsLoaded() {

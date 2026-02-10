@@ -47,39 +47,39 @@ object GeneralThemeSettings : DefaultSettingsContainer(identifier = "general_set
      * Default values for the LookAndFeel which are guaranteed to be bundled with any
      * IntelliJ based product.
      */
-    private enum class DefaultLaf(val info: UIThemeLookAndFeelInfo) {
+    private enum class DefaultLaf(val info: () -> UIThemeLookAndFeelInfo) {
         // Prefer Islands themes on newer IDEs; fall back to legacy IDs
-        DARK(searchLaf(LafFallback.Dark, "Islands Dark", "ExperimentalDark", "Darcula")),
-        LIGHT(searchLaf(LafFallback.Light, "Islands Light", "ExperimentalLight", "JetBrainsLightTheme")),
-        HIGH_CONTRAST(searchLaf(LafFallback.HighContrast, "JetBrainsHighContrastTheme"))
+        DARK({ searchLaf(LafFallback.Dark, "Islands Dark", "ExperimentalDark", "Darcula") }),
+        LIGHT({ searchLaf(LafFallback.Light, "Islands Light", "ExperimentalLight", "JetBrainsLightTheme") }),
+        HIGH_CONTRAST({ searchLaf(LafFallback.HighContrast, "JetBrainsHighContrastTheme") })
     }
 
     /**
      * Default values for the code scheme which are guaranteed to be bundled with any
      * IntelliJ based product.
      */
-    private enum class DefaultScheme(val scheme: EditorColorsScheme) {
-        LIGHT(searchScheme("IntelliJ Light", EditorColorsScheme.getDefaultSchemeName())),
-        DARK(searchScheme("Darcula")),
+    private enum class DefaultScheme(val scheme: () -> EditorColorsScheme) {
+        LIGHT({ searchScheme("IntelliJ Light", EditorColorsScheme.getDefaultSchemeName()) }),
+        DARK({ searchScheme("Darcula") }),
 
         /*
          * Note: The small c in the second "contrast" is the cyrillic character `с`.
          * Some versions of IDEA use the incorrect character. We simply search for both version.
          */
-        HIGH_CONTRAST(searchScheme("High contrast", "High сontrast"))
+        HIGH_CONTRAST({ searchScheme("High contrast", "High сontrast") })
     }
 
     private const val DEFAULT_CHANGE_IDE_THEME = true
     private const val DEFAULT_CHANGE_EDITOR_THEME = true
     private const val DEFAULT_CHECK_HIGH_CONTRAST = true
 
-    var darkTheme = DefaultLaf.DARK.info
-    var lightTheme = DefaultLaf.LIGHT.info
-    var highContrastTheme = DefaultLaf.HIGH_CONTRAST.info
+    var darkTheme = DefaultLaf.DARK.info()
+    var lightTheme = DefaultLaf.LIGHT.info()
+    var highContrastTheme = DefaultLaf.HIGH_CONTRAST.info()
 
-    var lightCodeScheme = DefaultScheme.LIGHT.scheme
-    var darkCodeScheme = DefaultScheme.DARK.scheme
-    var highContrastCodeScheme = DefaultScheme.HIGH_CONTRAST.scheme
+    var lightCodeScheme = DefaultScheme.LIGHT.scheme()
+    var darkCodeScheme = DefaultScheme.DARK.scheme()
+    var highContrastCodeScheme = DefaultScheme.HIGH_CONTRAST.scheme()
 
     var changeIdeTheme = DEFAULT_CHANGE_IDE_THEME
     var changeEditorTheme = DEFAULT_CHANGE_EDITOR_THEME

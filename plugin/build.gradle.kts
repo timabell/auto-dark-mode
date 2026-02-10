@@ -22,7 +22,7 @@ repositories {
 
 dependencies {
     intellijPlatform {
-        intellijIdeaCommunity("ideaPlugin".v)
+        intellijIdeaUltimate("ideaPlugin".v)
     }
 }
 
@@ -31,7 +31,7 @@ tasks.patchPluginXml {
         """
         v1.8.6
         <ul>
-            <li> Fixed startup error on newer IDEA versions
+            <li> Fixed startup error on IDEA 2025.3
         </ul>
         v1.8.5
         <ul>
