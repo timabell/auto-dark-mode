@@ -32,6 +32,7 @@ tasks.patchPluginXml {
         v1.8.5
         <ul>
             <li> Compatibility with new Island Themes.
+            <li> Fixed startup error on newer IDEA versions
         </ul>
         v1.8.4
         <ul>
