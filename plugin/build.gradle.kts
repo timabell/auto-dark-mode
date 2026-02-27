@@ -13,8 +13,10 @@ plugins {
 val String.v: String get() = rootProject.extra["$this.version"] as String
 val isPublished by props(true)
 val intellijPublishToken: String by props("")
+val intellijType: String by props("IC")
 
 intellij {
+    type.set(intellijType)
     version.set("ideaPlugin".v)
 }
 
